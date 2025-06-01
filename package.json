@@ -1,0 +1,14 @@
+{
+  "name": "mini-crm",
+  "version": "1.0.0",
+  "description": "A modern CRM platform with customer segmentation and campaign management",
+  "scripts": {
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "start": "concurrently \"cd backend && npm start\" \"cd frontend && npm start\"",
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
+} 
