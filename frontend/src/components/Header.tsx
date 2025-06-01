@@ -92,7 +92,9 @@ const Header: React.FC = () => {
         });
         console.log('Fetched notifications:', response.data);
         setNotifications(response.data);
-        setUnreadCount(response.data.filter((n: Notification) => !n.read).length);
+        const calculatedUnreadCount = response.data.filter((n: Notification) => !n.read).length;
+        console.log('Calculated unread count after fetch:', calculatedUnreadCount);
+        setUnreadCount(calculatedUnreadCount);
       } catch (error) {
         console.error('Error fetching notifications:', error);
       }
@@ -119,7 +121,7 @@ const Header: React.FC = () => {
   const handleNotificationsClose = async () => {
     console.log('handleNotificationsClose called');
     setNotificationsAnchor(null);
-    console.log('Unread count when closing:', unreadCount);
+    console.log('Unread count when closing:', Number(unreadCount));
     // Mark all unread notifications as read when the menu is closed
     if (unreadCount > 0) {
       try {
