@@ -116,8 +116,27 @@ const Header: React.FC = () => {
     setNotificationsAnchor(event.currentTarget);
   };
 
-  const handleNotificationsClose = () => {
+  const handleNotificationsClose = async () => {
     setNotificationsAnchor(null);
+    // Mark all unread notifications as read when the menu is closed
+    if (unreadCount > 0) {
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          await axios.put(`${config.API_URL}/api/notifications/read-all`, {}, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          // Optimistically update the UI or refetch notifications
+          setUnreadCount(0);
+          // Optionally refetch to get updated read status, or update state directly
+           // fetchNotifications(); 
+        }
+      } catch (error) {
+        console.error('Error marking all notifications as read:', error);
+      }
+    }
   };
 
   const handleLogout = () => {
