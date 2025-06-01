@@ -29,7 +29,7 @@ passport.use(
 
         // Get the highest resolution profile picture
         const picture = profile.photos && profile.photos.length > 0 
-          ? profile.photos[0].value.replace('=s96-c', '=s400-c') // Request a larger image
+          ? profile.photos[0].value.replace('=s96-c', '=s400-c') 
           : null;
 
         if (!user) {

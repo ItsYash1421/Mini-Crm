@@ -132,10 +132,9 @@ const Header: React.FC = () => {
               Authorization: `Bearer ${token}`
             }
           });
-          // Optimistically update the UI or refetch notifications
+  
           setUnreadCount(0);
-          // Optionally refetch to get updated read status, or update state directly
-           // fetchNotifications(); 
+         
         }
       } catch (error) {
         console.error('Error marking all notifications as read:', error);

@@ -12,7 +12,7 @@ import Header from './components/Header';
 import Profile from './pages/Profile';
 import { Box } from '@mui/material';
 
-// Suppress React Router v7 warnings
+
 const originalWarn = console.warn;
 console.warn = (...args) => {
   if (args[0]?.includes('React Router Future Flag Warning')) {

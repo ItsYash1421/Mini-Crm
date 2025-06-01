@@ -23,11 +23,11 @@ app.use(session({
   saveUninitialized: false,
   store: MongoStore.create({
     mongoUrl: config.MONGODB_URI,
-    ttl: 24 * 60 * 60 // 1 day
+    ttl: 24 * 60 * 60 
   }),
   cookie: {
     secure: process.env.NODE_ENV === 'production',
-    maxAge: 24 * 60 * 60 * 1000 // 1 day
+    maxAge: 24 * 60 * 60 * 1000 
   }
 }));
 
@@ -36,13 +36,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // === Configure Passport Strategies ===
-// Require and apply Passport config AFTER middleware
-const configurePassport = require('./config/passport'); // Require the config file
-configurePassport; // This line executes the code in the passport config file
+const configurePassport = require('./config/passport');
+configurePassport;
 
 // Log registered strategies (for debugging)
 console.log('Registered Passport Strategies:', Object.keys(passport._strategies));
-// ===================================
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -78,7 +76,6 @@ app.use((err, req, res, next) => {
 mongoose.connect(config.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
-    // Start server
     app.listen(config.PORT, () => {
       console.log(`Server is running on port ${config.PORT}`);
     });

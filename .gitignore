@@ -76,6 +76,6 @@ backend/build/
 backend/dist/
 backend/node_modules/
 
-# Sensitive files (adjust based on actual file names)
-# config.js # Uncomment and add specific file names if they contain secrets and are not using environment variables
+
+ config.js 
 secrets.js 

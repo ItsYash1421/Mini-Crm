@@ -6,24 +6,10 @@ const CommunicationLog = require('../models/CommunicationLog');
 const Notification = require('../models/Notification');
 const vendorService = require('../services/vendorService');
 const { verifyToken } = require('../middleware/auth');
-// Remove OpenAI import
-// const OpenAI = require('openai');
-
-// Import Google AI SDK
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-
-const config = require('../config'); // Import the main config file
-
-// Initialize Google AI with API key from config
+const config = require('../config');
 const genAI = new GoogleGenerativeAI(config.GOOGLE_API_KEY);
-
-// Choose a model (e.g., Gemini 1.5 Flash) - you can adjust the model name as needed
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
-
-// Remove OpenAI initialization
-// const openai = new OpenAI({
-//   apiKey: config.OPENAI_API_KEY,
-// });
 
 // Middleware to check authentication
 const isAuthenticated = (req, res, next) => {
@@ -32,7 +18,6 @@ const isAuthenticated = (req, res, next) => {
   }
   next();
 };
-
 // Preview audience size
 router.post('/preview-audience', verifyToken, async (req, res) => {
   try {
@@ -143,7 +128,7 @@ router.post('/', verifyToken, async (req, res) => {
 router.get('/', verifyToken, async (req, res) => {
   try {
     const campaigns = await Campaign.find()
-      .sort({ createdAt: -1 }); // Sort by most recent first
+      .sort({ createdAt: -1 });
     res.json(campaigns);
   } catch (err) {
     console.error('Error fetching campaigns:', err);
@@ -154,14 +139,9 @@ router.get('/', verifyToken, async (req, res) => {
 // Smart Scheduling Suggestions
 router.get('/scheduling-suggestions', verifyToken, async (req, res) => {
   try {
-    // --- Simulate analyzing customer activity patterns ---
-    // In a real-world scenario, this would involve querying customer interaction data
-    // (like email opens, clicks, website visits) with timestamps and identifying peaks.
-    // For this simulation, we'll pick a plausible time and day.
-
-    const suggestedDay = 'Tuesday'; // Example suggested day
-    const suggestedTime = '10:30 AM'; // Example suggested time
-    const rationale = 'Based on simulated customer engagement data, Tuesdays around late morning show the highest activity.'; // Example rationale
+    const suggestedDay = 'Tuesday'; 
+    const suggestedTime = '10:30 AM';
+    const rationale = 'Based on simulated customer engagement data, Tuesdays around late morning show the highest activity.';
 
     res.json({
       suggestedDay,
@@ -308,7 +288,6 @@ router.patch('/:id/status', verifyToken, async (req, res) => {
 // Helper function to initiate campaign delivery
 async function initiateCampaignDelivery(campaign) {
   try {
-    // Get matching customers based on segment rules
     const query = buildSegmentQuery(campaign.segment);
     const customers = await Customer.find(query);
 
@@ -340,10 +319,10 @@ async function initiateCampaignDelivery(campaign) {
           const savedLog = await log.save();
 
           try {
-            // Send message through vendor service
+            // Send message 
             const result = await vendorService.sendMessage(savedLog);
 
-            // Update log with vendor response
+            // Update log 
             const updateData = {
               status: result.response.status,
               vendorResponse: {
@@ -599,18 +578,14 @@ router.post('/suggestions', verifyToken, async (req, res) => {
     // Parse the AI model's response, handling potential markdown code blocks
     let aiSuggestions;
     try {
-         // Check if the text is wrapped in a markdown JSON code block
+        
         const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/);
-
         if (jsonMatch && jsonMatch[1]) {
-            // If wrapped, parse the content inside the code block
             aiSuggestions = JSON.parse(jsonMatch[1]);
         } else {
-             // If not wrapped, attempt to parse the raw text directly
              aiSuggestions = JSON.parse(text);
         }
-
-         // Validate the structure if necessary, e.g., check if aiSuggestions.suggestions is an array
+         // Validate the structure
          if (!aiSuggestions || !Array.isArray(aiSuggestions.suggestions)) {
               console.error('Invalid JSON structure from AI model:', aiSuggestions);
               throw new Error("Invalid JSON structure from AI model.");
@@ -626,7 +601,6 @@ router.post('/suggestions', verifyToken, async (req, res) => {
 
   } catch (error) {
     console.error('Error generating message suggestions:', error);
-    // You might add more specific error handling for Google AI errors here
     res.status(500).json({ message: 'Failed to generate suggestions.', error: error.message });
   }
 });
@@ -640,7 +614,6 @@ router.post('/convert-prompt', verifyToken, async (req, res) => {
   }
 
   try {
-    // Craft a prompt for the Google AI model to convert natural language to segment rules
     const aiPrompt = `Convert the following customer segment description into a logical segment rule structure. The description is: "${prompt}"
 
 Available fields are:
@@ -688,14 +661,11 @@ For example, "People who haven't shopped in 6 months and spent over ₹5K" shoul
     // Parse the AI model's response
     let segmentRules;
     try {
-      // Check if the text is wrapped in a markdown JSON code block
       const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/);
 
       if (jsonMatch && jsonMatch[1]) {
-        // If wrapped, parse the content inside the code block
         segmentRules = JSON.parse(jsonMatch[1]);
       } else {
-        // If not wrapped, attempt to parse the raw text directly
         segmentRules = JSON.parse(text);
       }
 
@@ -739,7 +709,7 @@ router.post('/lookalike-suggestions', verifyToken, async (req, res) => {
     let targetSegment = segment;
 
     if (!targetSegment && campaignId) {
-      // If campaignId is provided, fetch the segment from the campaign
+      //fetch the segment from the campaign
       const campaign = await Campaign.findById(campaignId);
       if (!campaign) {
         return res.status(404).json({ message: 'Campaign not found' });
@@ -752,19 +722,8 @@ router.post('/lookalike-suggestions', verifyToken, async (req, res) => {
     }
 
     // --- Simulate AI Logic for Lookalike Generation ---
-    // In a real implementation, you'd send the `targetSegment` to an AI model
-    // trained to identify patterns and suggest similar criteria.
-    // For this simulation, we'll generate some plausible lookalike rules
-    // based on common patterns (e.g., slightly broader ranges, related fields).
-
     const suggestedRules = [];
     const baseRules = targetSegment.rules;
-
-    // Example Simulation Logic:
-    // If original segment has totalSpend > 5000, suggest > 4000
-    // If original segment has visitCount >= 5, suggest >= 4
-    // If original segment is segment == 'VIP', suggest segment == 'Active' or totalSpend > some value
-
     let generated = false;
 
     for (const rule of baseRules) {
@@ -772,7 +731,7 @@ router.post('/lookalike-suggestions', verifyToken, async (req, res) => {
         suggestedRules.push({
           field: 'totalSpend',
           operator: rule.operator === '>' || rule.operator === '>=' ? '>=' : '<=',
-          value: (parseFloat(rule.value) * 0.8).toFixed(0) // Suggest slightly lower spend
+          value: (parseFloat(rule.value) * 0.8).toFixed(0) 
         });
         generated = true;
       }
@@ -780,7 +739,7 @@ router.post('/lookalike-suggestions', verifyToken, async (req, res) => {
          suggestedRules.push({
            field: 'visitCount',
            operator: rule.operator === '>' || rule.operator === '>=' ? '>=' : '<=',
-           value: (parseInt(rule.value) - (parseInt(rule.value) > 1 ? 1 : 0)).toString() // Suggest slightly lower visit count
+           value: (parseInt(rule.value) - (parseInt(rule.value) > 1 ? 1 : 0)).toString() 
          });
          generated = true;
       }
@@ -796,7 +755,6 @@ router.post('/lookalike-suggestions', verifyToken, async (req, res) => {
 
      // If no specific rules triggered suggestions, add a default one
      if (!generated && baseRules.length > 0) {
-        // Default suggestion based on a common pattern
         suggestedRules.push({
             field: 'visitCount',
             operator: '>=',
@@ -807,14 +765,14 @@ router.post('/lookalike-suggestions', verifyToken, async (req, res) => {
      const uniqueSuggestedRules = Array.from(new Set(suggestedRules.map(JSON.stringify))).map(JSON.parse);
 
     // Choose an operator - could be same as original or a mix
-    const suggestedOperator = targetSegment.operator; // Keep the same operator for simplicity
+    const suggestedOperator = targetSegment.operator;
 
     res.json({
       suggestedSegment: {
         rules: uniqueSuggestedRules,
         operator: suggestedOperator
       },
-      rationale: 'Suggested audience characteristics based on patterns found in the target segment.' // Simulated rationale
+      rationale: 'Suggested audience characteristics based on patterns found in the target segment.' 
     });
 
   } catch (error) {

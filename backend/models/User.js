@@ -17,8 +17,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    // We are not making password 'required: true' here
-    // to allow for users created via Google OAuth
+
   },
   picture: String,
   lastLogin: {

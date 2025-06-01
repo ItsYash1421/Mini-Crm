@@ -20,7 +20,7 @@ router.get('/stats', verifyToken, async (req, res) => {
       Campaign.countDocuments({ status: 'active' }),
       Customer.countDocuments(),
       Order.countDocuments(),
-      // Calculate total audience as sum of unique customers across all campaigns
+      // total audience
       CommunicationLog.aggregate([
         {
           $group: {

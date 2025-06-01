@@ -14,12 +14,9 @@ module.exports = {
   // Server port
   PORT: process.env.PORT || 8000,
   // Open Api
-  GOOGLE_API_KEY: process.env.GOOGLE_API_KEY || 'AIzaSyDpaEZl-43UKeklvNBQMQ4buZwpaJKYR3Y', // Replace with a secure fallback or remove in production
+  GOOGLE_API_KEY: process.env.GOOGLE_API_KEY || 'AIzaSyDpaEZl-43UKeklvNBQMQ4buZwpaJKYR3Y',
   // CORS configuration
   CORS_ORIGIN: process.env.CORS_ORIGIN || 'http://localhost:3000',
-  
-  // Company Name
-  COMPANY_NAME: process.env.COMPANY_NAME || 'Your Company Name', // Replace with your actual company name or load from .env
   
   // Vendor API configuration
   VENDOR_API: {

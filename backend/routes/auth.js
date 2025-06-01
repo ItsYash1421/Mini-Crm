@@ -3,9 +3,9 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const { verifyToken } = require('../middleware/auth');
-const User = require('../models/User'); // Import User model
-const bcrypt = require('bcryptjs'); // Import bcryptjs for password comparison
-const config = require('../config'); // Require the main config file
+const User = require('../models/User');
+const bcrypt = require('bcryptjs'); 
+const config = require('../config');
 
 // Google OAuth routes
 router.get('/google',

@@ -56,12 +56,12 @@ const communicationLogSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Indexes for better query performance
+// Indexes
 communicationLogSchema.index({ campaignId: 1, customerId: 1 });
 communicationLogSchema.index({ status: 1 });
 communicationLogSchema.index({ createdAt: 1 });
 
-// Pre-save middleware to ensure proper status updates
+// proper status updates
 communicationLogSchema.pre('save', function(next) {
   const now = new Date();
   

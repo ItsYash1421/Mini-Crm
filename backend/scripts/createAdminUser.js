@@ -11,7 +11,7 @@ const createAdminUser = async () => {
     });
     console.log('MongoDB connected');
 
-    // Check if an admin user already exists (optional)
+    //admin user already exists
     const existingAdmin = await User.findOne({ email: 'admin@example.com' });
     if (existingAdmin) {
       console.log('Admin user already exists.');
@@ -21,15 +21,15 @@ const createAdminUser = async () => {
 
     // Hash the password
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash('1421yash', salt); // !!! CHANGE THIS PASSWORD !!!
+    const hashedPassword = await bcrypt.hash('1421yash', salt);
 
     // Create new admin user
     const adminUser = new User({
       name: 'Admin User',
       email: 'admin@example.com',
       password: hashedPassword,
-      role: 'admin', // Assuming your User model supports a 'role' field
-      googleId: 'yashbt22csd@gmail.com' // Add the required googleId
+      role: 'admin', 
+      googleId: 'yashbt22csd@gmail.com' 
     });
 
     await adminUser.save();
