@@ -17,13 +17,11 @@ import {
   keyframes
 } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
-import CampaignIcon from '@mui/icons-material/Campaign';
 import SecurityIcon from '@mui/icons-material/Security';
 import SpeedIcon from '@mui/icons-material/Speed';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import config from '../config';
 
-// Define custom animations using keyframes
 const glow = keyframes`
   0% { box-shadow: 0 0 5px ${alpha('#fff', 0.2)}; }
   50% { box-shadow: 0 0 20px ${alpha('#fff', 0.6)}; }
@@ -55,7 +53,7 @@ const Login: React.FC = () => {
     setIsLoading(true);
     try {
       const googleAuthUrl = `${config.API_URL}/api/auth/google`;
-      console.log('Initiating Google login, redirecting to:', googleAuthUrl); // Debug log
+      console.log('Initiating Google login, redirecting to:', googleAuthUrl);
       window.location.href = googleAuthUrl;
     } catch (error) {
       console.error('Login error:', error);
@@ -84,9 +82,9 @@ const Login: React.FC = () => {
   return (
     <Box
       sx={{
-        height: '100vh', // Set fixed height to viewport height
-        overflow: 'hidden', // Prevent all scrolling
-        background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`, // Reversed gradient direction
+        height: '100vh',
+        overflow: { xs: 'auto', md: 'hidden' }, // Mobile scroll fix
+        background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
         position: 'relative',
         '&::before': {
           content: '""',
@@ -96,15 +94,29 @@ const Login: React.FC = () => {
           right: 0,
           bottom: 0,
           background: 'url(/pattern.svg)',
-          opacity: 0.2, // Slightly increased opacity
+          opacity: 0.2,
           zIndex: -1,
         },
       }}
     >
-      <Container maxWidth="lg" sx={{ height: '100%', display: 'flex', alignItems: 'center' }}> {/* Make container take full height and center content */}
-        <Grid container spacing={{ xs: 4, md: 4 }} sx={{ width: '100%', height: '100%', alignItems: 'center' }}> {/* Adjust spacing for responsiveness */}
+      <Container
+        maxWidth="lg"
+        sx={{
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          px: { xs: 2, sm: 4, md: 0 },  // Add horizontal padding on mobile
+          py: { xs: 4, md: 0 },         // Add vertical padding on mobile
+        }}
+      >
+        <Grid container spacing={{ xs: 4, md: 4 }} sx={{ width: '100%', height: '100%', alignItems: 'center' }}>
           {/* Left Column - Features */}
-          <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', pb: { xs: 4, md: 0 } }}> {/* Add bottom padding on mobile */}
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', pb: { xs: 4, md: 0 } }}
+          >
             <Fade in timeout={1500}>
               <Box sx={{ color: 'white', pr: { md: 4 }, textAlign: { xs: 'center', md: 'left' } }}>
                 <Typography
@@ -113,8 +125,8 @@ const Login: React.FC = () => {
                   gutterBottom
                   sx={{
                     fontWeight: 'bold',
-                    mb: 3,
-                    fontSize: { xs: '2.5rem', md: '3.2rem' },
+                    mb: { xs: 2, md: 3 },
+                    fontSize: { xs: '2rem', md: '3.2rem' },
                     textShadow: '2px 2px 8px rgba(0,0,0,0.4)',
                   }}
                 >
@@ -123,16 +135,16 @@ const Login: React.FC = () => {
                 <Typography
                   variant="h6"
                   sx={{
-                    mb: 6,
+                    mb: { xs: 4, md: 6 },
                     opacity: 0.98,
                     lineHeight: 1.8,
-                    fontSize: { xs: '1.1rem', md: '1.4rem' },
+                    fontSize: { xs: '1rem', md: '1.4rem' },
                   }}
                 >
                   Your all-in-one solution for managing marketing campaigns and customer relationships
                 </Typography>
 
-                <Grid container spacing={3}> {/* Consistent spacing */}
+                <Grid container spacing={3}>
                   {features.map((feature, index) => (
                     <Grid item xs={12} key={index}>
                       <Zoom
@@ -151,7 +163,6 @@ const Login: React.FC = () => {
                             transition: 'all 0.4s ease-in-out',
                             transform: hoveredFeature === index ? 'translateY(-10px)' : 'none',
                             cursor: 'pointer',
-                            overflow: 'hidden',
                             position: 'relative',
                             '&::before': {
                               content: '""',
@@ -165,27 +176,27 @@ const Login: React.FC = () => {
                           onMouseEnter={() => setHoveredFeature(index)}
                           onMouseLeave={() => setHoveredFeature(null)}
                         >
-                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                              <Box
-                                sx={{
-                                  p: 1.5,
-                                  borderRadius: '50%',
-                                  background: alpha(theme.palette.common.white, 0.3),
-                                  color: 'white',
-                                  animation: hoveredFeature === index ? `${floatAnimation} 3s ease-in-out infinite` : 'none',
-                                }}
-                              >
-                                {feature.icon}
-                              </Box>
-                              <Box>
-                                <Typography variant="h6" sx={{ color: 'white', mb: 0.5, fontWeight: 'bold' }}>
-                                  {feature.title}
-                                </Typography>
-                                <Typography variant="body2" sx={{ color: alpha(theme.palette.common.white, 0.9) }}>
-                                  {feature.description}
-                                </Typography>
-                              </Box>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Box
+                              sx={{
+                                p: 1.5,
+                                borderRadius: '50%',
+                                background: alpha(theme.palette.common.white, 0.3),
+                                color: 'white',
+                                animation: hoveredFeature === index ? `${floatAnimation} 3s ease-in-out infinite` : 'none',
+                              }}
+                            >
+                              {feature.icon}
                             </Box>
+                            <Box>
+                              <Typography variant="h6" sx={{ color: 'white', mb: 0.5, fontWeight: 'bold' }}>
+                                {feature.title}
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: alpha(theme.palette.common.white, 0.9) }}>
+                                {feature.description}
+                              </Typography>
+                            </Box>
+                          </Box>
                         </Paper>
                       </Zoom>
                     </Grid>
@@ -196,7 +207,12 @@ const Login: React.FC = () => {
           </Grid>
 
           {/* Right Column - Login */}
-          <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', pt: { xs: 0, md: 0 } }}> {/* Ensure no extra top padding on mobile */}
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', pt: { xs: 0, md: 0 } }}
+          >
             <Slide direction="left" in timeout={1500}>
               <Box
                 sx={{
@@ -204,41 +220,48 @@ const Login: React.FC = () => {
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  width: '100%'
                 }}
               >
                 <Paper
                   elevation={24}
                   sx={{
-                    p: 4,
+                    p: { xs: 3, md: 4 },
                     width: '100%',
-                    maxWidth: 450,
+                    maxWidth: { xs: '100%', md: 450 },
                     background: alpha(theme.palette.background.paper, 0.98),
                     backdropFilter: 'blur(20px)',
                     borderRadius: 4,
                     border: `1px solid ${alpha(theme.palette.divider, 0.3)}`,
                     boxShadow: `0 12px 40px ${alpha(theme.palette.primary.dark, 0.4)}`,
-                    position: 'relative',
-                    overflow: 'hidden',
                     animation: `${glow} 5s ease-in-out infinite`,
+                    overflow: 'hidden',
                   }}
                 >
-                  <Box sx={{ textAlign: 'center', mb: { xs: 3, md: 4 } }}> {/* Adjust bottom margin */}
+                  <Box sx={{ textAlign: 'center', mb: { xs: 3, md: 4 } }}>
                     <Typography
                       variant="h4"
                       component="h2"
                       gutterBottom
-                      sx={{ fontWeight: 'bold', color: theme.palette.primary.dark, textShadow: '1px 1px 4px rgba(0,0,0,0.2)', fontSize: { xs: '2rem', md: '2.5rem' } }} {/* Adjust font size */}
+                      sx={{
+                        fontWeight: 'bold',
+                        color: theme.palette.primary.dark,
+                        textShadow: '1px 1px 4px rgba(0,0,0,0.2)',
+                        fontSize: { xs: '2rem', md: '2.5rem' },
+                      }}
                     >
                       Get Started
                     </Typography>
-                    <Typography variant="body1" color="text.secondary"
-                      sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }} {/* Adjust font size */}
+                    <Typography
+                      variant="body1"
+                      color="text.secondary"
+                      sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}
                     >
                       Sign in to access your dashboard
                     </Typography>
                   </Box>
 
-                  <Box sx={{ mb: { xs: 2, md: 3 } }}> {/* Adjust bottom margin */}
+                  <Box sx={{ mb: { xs: 2, md: 3 } }}>
                     <Button
                       fullWidth
                       variant="contained"
@@ -247,10 +270,10 @@ const Login: React.FC = () => {
                       disabled={isLoading}
                       startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : <GoogleIcon />}
                       sx={{
-                        py: 1.8,
+                        py: { xs: 1.4, md: 1.8 },
                         borderRadius: 2,
                         textTransform: 'none',
-                        fontSize: '1.1rem',
+                        fontSize: { xs: '1rem', md: '1.1rem' },
                         background: theme.palette.common.white,
                         color: theme.palette.text.primary,
                         boxShadow: '0 8px 20px rgba(0,0,0,0.25)',
@@ -294,4 +317,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login; 
+export default Login;
