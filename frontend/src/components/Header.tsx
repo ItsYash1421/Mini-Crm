@@ -117,7 +117,9 @@ const Header: React.FC = () => {
   };
 
   const handleNotificationsClose = async () => {
+    console.log('handleNotificationsClose called');
     setNotificationsAnchor(null);
+    console.log('Unread count when closing:', unreadCount);
     // Mark all unread notifications as read when the menu is closed
     if (unreadCount > 0) {
       try {
