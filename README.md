@@ -155,18 +155,6 @@ Visit the deployed application: [Mini CRM](https://mini-qhmrk9me0-yash-kumar-mee
 3. Configure environment variables
 4. Deploy
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 ## 📧 Contact
 
 Yash Kumar Meena - [yashamanmeena2@gmail.com](mailto:yashamanmeena2@gmail.com)
