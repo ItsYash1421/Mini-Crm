@@ -102,9 +102,9 @@ const Login: React.FC = () => {
       }}
     >
       <Container maxWidth="lg" sx={{ height: '100%', display: 'flex', alignItems: 'center' }}> {/* Make container take full height and center content */}
-        <Grid container spacing={4} sx={{ width: '100%', height: '100%', alignItems: 'center' }}> {/* Grid takes full height */}
+        <Grid container spacing={{ xs: 4, md: 4 }} sx={{ width: '100%', height: '100%', alignItems: 'center' }}> {/* Adjust spacing for responsiveness */}
           {/* Left Column - Features */}
-          <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}> {/* Center content vertically */}
+          <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', pb: { xs: 4, md: 0 } }}> {/* Add bottom padding on mobile */}
             <Fade in timeout={1500}>
               <Box sx={{ color: 'white', pr: { md: 4 }, textAlign: { xs: 'center', md: 'left' } }}>
                 <Typography
@@ -196,7 +196,7 @@ const Login: React.FC = () => {
           </Grid>
 
           {/* Right Column - Login */}
-          <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}> {/* Center content vertically */}
+          <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', pt: { xs: 0, md: 0 } }}> {/* Ensure no extra top padding on mobile */}
             <Slide direction="left" in timeout={1500}>
               <Box
                 sx={{
@@ -222,21 +222,23 @@ const Login: React.FC = () => {
                     animation: `${glow} 5s ease-in-out infinite`,
                   }}
                 >
-                  <Box sx={{ textAlign: 'center', mb: 4 }}>
+                  <Box sx={{ textAlign: 'center', mb: { xs: 3, md: 4 } }}> {/* Adjust bottom margin */}
                     <Typography
                       variant="h4"
                       component="h2"
                       gutterBottom
-                      sx={{ fontWeight: 'bold', color: theme.palette.primary.dark, textShadow: '1px 1px 4px rgba(0,0,0,0.2)' }}
+                      sx={{ fontWeight: 'bold', color: theme.palette.primary.dark, textShadow: '1px 1px 4px rgba(0,0,0,0.2)', fontSize: { xs: '2rem', md: '2.5rem' } }} {/* Adjust font size */}
                     >
                       Get Started
                     </Typography>
-                    <Typography variant="body1" color="text.secondary">
+                    <Typography variant="body1" color="text.secondary"
+                      sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }} {/* Adjust font size */}
+                    >
                       Sign in to access your dashboard
                     </Typography>
                   </Box>
 
-                  <Box sx={{ mb: 3 }}>
+                  <Box sx={{ mb: { xs: 2, md: 3 } }}> {/* Adjust bottom margin */}
                     <Button
                       fullWidth
                       variant="contained"
