@@ -12,6 +12,7 @@ const AuthCallback: React.FC = () => {
   useEffect(() => {
     const handleCallback = async () => {
       try {
+        console.log('Frontend AuthCallback received URL:', window.location.href);
         const params = new URLSearchParams(location.search);
         const token = params.get('token');
         const id = params.get('id') || '';
