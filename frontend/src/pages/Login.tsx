@@ -14,7 +14,8 @@ import {
   Slide,
   alpha,
   CircularProgress,
-  keyframes
+  keyframes,
+  useMediaQuery,
 } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import SecurityIcon from '@mui/icons-material/Security';
@@ -40,6 +41,7 @@ const Login: React.FC = () => {
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [isLoading, setIsLoading] = useState(false);
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
 
@@ -53,7 +55,6 @@ const Login: React.FC = () => {
     setIsLoading(true);
     try {
       const googleAuthUrl = `${config.API_URL}/api/auth/google`;
-      console.log('Initiating Google login, redirecting to:', googleAuthUrl);
       window.location.href = googleAuthUrl;
     } catch (error) {
       console.error('Login error:', error);
@@ -65,25 +66,25 @@ const Login: React.FC = () => {
     {
       icon: <SecurityIcon sx={{ fontSize: 40 }} />,
       title: 'Secure Authentication',
-      description: 'Enterprise-grade security with Google OAuth integration'
+      description: 'Enterprise-grade security with Google OAuth integration',
     },
     {
       icon: <SpeedIcon sx={{ fontSize: 40 }} />,
       title: 'Fast & Efficient',
-      description: 'Lightning-fast campaign delivery and real-time analytics'
+      description: 'Lightning-fast campaign delivery and real-time analytics',
     },
     {
       icon: <AnalyticsIcon sx={{ fontSize: 40 }} />,
       title: 'Smart Analytics',
-      description: 'Advanced insights and performance tracking'
-    }
+      description: 'Advanced insights and performance tracking',
+    },
   ];
 
   return (
     <Box
       sx={{
         height: '100vh',
-        overflow: { xs: 'auto', md: 'hidden' }, // Mobile scroll fix
+        overflow: { xs: 'auto', md: 'hidden' },
         background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
         position: 'relative',
         '&::before': {
@@ -105,20 +106,30 @@ const Login: React.FC = () => {
           height: '100%',
           display: 'flex',
           alignItems: 'center',
-          px: { xs: 2, sm: 4, md: 0 },  // Add horizontal padding on mobile
-          py: { xs: 4, md: 0 },         // Add vertical padding on mobile
+          px: { xs: 2, sm: 4, md: 0 },
+          py: { xs: 4, md: 0 },
         }}
       >
-        <Grid container spacing={{ xs: 4, md: 4 }} sx={{ width: '100%', height: '100%', alignItems: 'center' }}>
-          {/* Left Column - Features */}
+        <Grid container spacing={{ xs: 3, md: 4 }} sx={{ width: '100%', height: '100%', alignItems: 'center' }}>
           <Grid
             item
             xs={12}
             md={6}
-            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', pb: { xs: 4, md: 0 } }}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              pb: { xs: 3, md: 0 },
+              order: { xs: 2, md: 1 }
+            }}
           >
             <Fade in timeout={1500}>
-              <Box sx={{ color: 'white', pr: { md: 4 }, textAlign: { xs: 'center', md: 'left' } }}>
+              <Box sx={{ 
+                color: 'white', 
+                pr: { md: 4 }, 
+                textAlign: { xs: 'center', md: 'left' },
+                mt: { xs: 2, md: 0 }
+              }}>
                 <Typography
                   variant="h3"
                   component="h1"
@@ -128,6 +139,7 @@ const Login: React.FC = () => {
                     mb: { xs: 2, md: 3 },
                     fontSize: { xs: '2rem', md: '3.2rem' },
                     textShadow: '2px 2px 8px rgba(0,0,0,0.4)',
+                    letterSpacing: { xs: '-0.5px', md: 'normal' }
                   }}
                 >
                   Welcome to Mini CRM
@@ -135,16 +147,17 @@ const Login: React.FC = () => {
                 <Typography
                   variant="h6"
                   sx={{
-                    mb: { xs: 4, md: 6 },
+                    mb: { xs: 3, md: 6 },
                     opacity: 0.98,
-                    lineHeight: 1.8,
+                    lineHeight: 1.6,
                     fontSize: { xs: '1rem', md: '1.4rem' },
+                    px: { xs: 2, md: 0 }
                   }}
                 >
                   Your all-in-one solution for managing marketing campaigns and customer relationships
                 </Typography>
 
-                <Grid container spacing={3}>
+                <Grid container spacing={2}>
                   {features.map((feature, index) => (
                     <Grid item xs={12} key={index}>
                       <Zoom
@@ -155,7 +168,7 @@ const Login: React.FC = () => {
                         <Paper
                           elevation={6}
                           sx={{
-                            p: 3,
+                            p: { xs: 2, md: 3 },
                             background: alpha(theme.palette.background.paper, hoveredFeature === index ? 0.3 : 0.2),
                             backdropFilter: 'blur(16px)',
                             border: `1px solid ${alpha(theme.palette.common.white, 0.3)}`,
@@ -179,7 +192,7 @@ const Login: React.FC = () => {
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                             <Box
                               sx={{
-                                p: 1.5,
+                                p: { xs: 1, md: 1.5 },
                                 borderRadius: '50%',
                                 background: alpha(theme.palette.common.white, 0.3),
                                 color: 'white',
@@ -189,10 +202,24 @@ const Login: React.FC = () => {
                               {feature.icon}
                             </Box>
                             <Box>
-                              <Typography variant="h6" sx={{ color: 'white', mb: 0.5, fontWeight: 'bold' }}>
+                              <Typography 
+                                variant="h6" 
+                                sx={{ 
+                                  color: 'white', 
+                                  mb: 0.5, 
+                                  fontWeight: 'bold',
+                                  fontSize: { xs: '1.1rem', md: '1.25rem' }
+                                }}
+                              >
                                 {feature.title}
                               </Typography>
-                              <Typography variant="body2" sx={{ color: alpha(theme.palette.common.white, 0.9) }}>
+                              <Typography 
+                                variant="body2" 
+                                sx={{ 
+                                  color: alpha(theme.palette.common.white, 0.9),
+                                  fontSize: { xs: '0.875rem', md: '1rem' }
+                                }}
+                              >
                                 {feature.description}
                               </Typography>
                             </Box>
@@ -206,12 +233,17 @@ const Login: React.FC = () => {
             </Fade>
           </Grid>
 
-          {/* Right Column - Login */}
           <Grid
             item
             xs={12}
             md={6}
-            sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', pt: { xs: 0, md: 0 } }}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              pt: { xs: 0, md: 0 },
+              order: { xs: 1, md: 2 }
+            }}
           >
             <Slide direction="left" in timeout={1500}>
               <Box
@@ -226,19 +258,19 @@ const Login: React.FC = () => {
                 <Paper
                   elevation={24}
                   sx={{
-                    p: { xs: 3, md: 4 },
+                    p: { xs: 2.5, md: 4 },
                     width: '100%',
                     maxWidth: { xs: '100%', md: 450 },
                     background: alpha(theme.palette.background.paper, 0.98),
                     backdropFilter: 'blur(20px)',
-                    borderRadius: 4,
+                    borderRadius: { xs: 3, md: 4 },
                     border: `1px solid ${alpha(theme.palette.divider, 0.3)}`,
                     boxShadow: `0 12px 40px ${alpha(theme.palette.primary.dark, 0.4)}`,
                     animation: `${glow} 5s ease-in-out infinite`,
                     overflow: 'hidden',
                   }}
                 >
-                  <Box sx={{ textAlign: 'center', mb: { xs: 3, md: 4 } }}>
+                  <Box sx={{ textAlign: 'center', mb: { xs: 2.5, md: 4 } }}>
                     <Typography
                       variant="h4"
                       component="h2"
@@ -247,7 +279,7 @@ const Login: React.FC = () => {
                         fontWeight: 'bold',
                         color: theme.palette.primary.dark,
                         textShadow: '1px 1px 4px rgba(0,0,0,0.2)',
-                        fontSize: { xs: '2rem', md: '2.5rem' },
+                        fontSize: { xs: '1.75rem', md: '2.5rem' },
                       }}
                     >
                       Get Started
@@ -255,7 +287,10 @@ const Login: React.FC = () => {
                     <Typography
                       variant="body1"
                       color="text.secondary"
-                      sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}
+                      sx={{ 
+                        fontSize: { xs: '0.875rem', md: '1rem' },
+                        mb: { xs: 1, md: 0 }
+                      }}
                     >
                       Sign in to access your dashboard
                     </Typography>
@@ -270,10 +305,11 @@ const Login: React.FC = () => {
                       disabled={isLoading}
                       startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : <GoogleIcon />}
                       sx={{
-                        py: { xs: 1.4, md: 1.8 },
+                        py: { xs: 1.2, md: 1.8 },
+                        px: { xs: 2, md: 3 },
                         borderRadius: 2,
                         textTransform: 'none',
-                        fontSize: { xs: '1rem', md: '1.1rem' },
+                        fontSize: { xs: '0.95rem', md: '1.1rem' },
                         background: theme.palette.common.white,
                         color: theme.palette.text.primary,
                         boxShadow: '0 8px 20px rgba(0,0,0,0.25)',
@@ -289,8 +325,12 @@ const Login: React.FC = () => {
                     </Button>
                   </Box>
 
-                  <Box sx={{ mt: 4, textAlign: 'center' }}>
-                    <Typography variant="body2" color="text.secondary">
+                  <Box sx={{ mt: { xs: 3, md: 4 }, textAlign: 'center' }}>
+                    <Typography 
+                      variant="body2" 
+                      color="text.secondary"
+                      sx={{ fontSize: { xs: '0.8rem', md: '0.875rem' } }}
+                    >
                       By continuing, you agree to our{' '}
                       <Typography
                         component="span"
@@ -301,6 +341,7 @@ const Login: React.FC = () => {
                           fontWeight: 'bold',
                           '&:hover': { textDecoration: 'underline', color: theme.palette.primary.dark },
                           transition: 'color 0.2s ease-in-out',
+                          fontSize: { xs: '0.8rem', md: '0.875rem' }
                         }}
                       >
                         Terms of Service
