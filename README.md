@@ -4,7 +4,7 @@
 
 ## 🌐 Live Demo
 
-Visit the deployed application: [Mini CRM](https://mini-qhmrk9me0-yash-kumar-meenas-projects.vercel.app)
+Visit the deployed application: [Mini CRM](mini-bpuqifu1i-yash-kumar-meenas-projects.vercel.app)
 
 ## 🚀 Features
 
