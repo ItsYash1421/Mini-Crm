@@ -55,6 +55,38 @@ Visit the deployed application: [Mini CRM](https://mini-qhmrk9me0-yash-kumar-mee
 - Backend: Render
 - Database: MongoDB Atlas
 
+## 🏗️ Architecture
+
+The application follows a standard client-server architecture:
+
+1.  **Frontend (Client):** A React application built with TypeScript and Material-UI, running in the user's browser. It interacts with the backend API to send and receive data.
+2.  **Backend (Server):** A Node.js/Express.js API that handles business logic, authentication, and data persistence. It connects to the MongoDB database.
+3.  **Database:** MongoDB stores all application data, including user information, campaigns, and customers.
+
+The frontend communicates with the backend via RESTful API endpoints. Authentication is managed using JWTs issued by the backend upon successful login (including Google OAuth).
+
+![image](https://github.com/user-attachments/assets/941e142e-eb1f-4bb6-a291-aba9c5953fc8)
+
+
+## 🧠 AI Tools and Development Process
+
+This project was developed with the assistance of AI tools, which aided in areas such as:
+
+- Code generation and completion
+- Debugging and error resolution
+- Refactoring and code optimization
+- Suggesting best practices and implementation strategies
+
+Other key technologies used in the development lifecycle include Git for version control and npm/yarn for package management.
+
+## ⚠️ Known Limitations and Assumptions
+
+- **Analytics:** The dashboard and campaign analytics are currently basic and can be expanded with more detailed reporting and visualization.
+- **Customer Segmentation:** The 'Target Audience' field in campaign creation is currently a text input; advanced segmentation logic is not implemented.
+- **Error Handling:** While core error handling is in place, comprehensive error management and user feedback for all potential issues can be improved.
+- **Input Validation:** Additional server-side input validation might be necessary for certain data points.
+- **Testing:** Comprehensive unit and integration tests have not been fully implemented.
+
 ## 📋 Prerequisites
 
 - Node.js (v14 or higher)
@@ -154,6 +186,7 @@ Visit the deployed application: [Mini CRM](https://mini-qhmrk9me0-yash-kumar-mee
 2. Connect your GitHub repository
 3. Configure environment variables
 4. Deploy
+
 
 ## 📧 Contact
 
